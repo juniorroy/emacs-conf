@@ -1,0 +1,5 @@
+*.el~
+session.*
+\#*
+.#*
+auto-save-list/

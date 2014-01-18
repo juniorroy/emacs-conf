@@ -1,0 +1,43 @@
+(setq auto-mode-alist
+      (append '(("\\.lisp$"   . lisp-mode)
+                ("\\.lsp$"    . lisp-mode)
+                ("\\.cl$"     . lisp-mode)
+                ("\\.asd$"    . lisp-mode)
+                ("\\.system$" . lisp-mode))
+              auto-mode-alist))
+(add-hook 'lisp-mode-hook
+          (lambda ()
+            (setq lisp-indent-function 'common-lisp-indent-function)
+            (setq show-trailing-whitespace t)))
+
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(require 'slime)
+(slime-setup '(slime-fancy slime-indentation slime-tramp slime-asdf slime-sprof))
+(setq slime-net-coding-system 'utf-8-unix)
+(setq slime-default-lisp 'sbcl)
+(setq slime-lisp-implementations
+      `((sbcl ("/bin/sbcl") :coding-system utf-8-unix)
+        (ccl  ("/bin/ccl") :coding-system utf-8-unix)
+        (ecl  ("/bin/ecl") :coding-system utf-8-unix)
+        (abcl ("/bin/abcl") :coding-system utf-8-unix)
+        (lw   ("/bin/lw") :coding-system utf-8-unix)
+        (alisp ("/bin/alisp") :coding-system utf-8-unix)))
+(eval-after-load 'slime
+  '(progn
+     (setq common-lisp-hyperspec-root "~/.emacs.d/doc/HyperSpec/")
+     (setq slime-scratch-file "~/.emacs.d/tmp/scratch.lisp")
+     (setq slime-edit-definition-fallback-function 'find-tag)
+     (setq slime-complete-symbol*-fancy t)
+     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
+     (setq slime-when-complete-filename-expand t)
+     (setq slime-truncate-lines nil)
+     (setq slime-autodoc-use-multiline-p t)
+     (slime-autodoc-mode)))
+(add-hook 'lisp-mode-hook
+          (lambda ()
+            (setq slime-use-autodoc-mode t)))
+(defun my/customized-lisp-keyboard ()
+  (define-key slime-repl-mode-map (kbd "C-c ;") 'slime-insert-balanced-comments)
+  (local-set-key [C-tab] 'slime-fuzzy-complete-symbol)
+  (local-set-key [return] 'newline-and-indent))
+(add-hook 'lisp-mode-hook 'my/customized-lisp-keyboard)
