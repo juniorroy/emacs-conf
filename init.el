@@ -19,3 +19,9 @@
 
 ;;trying some ex while reading about emacs extentions
 (load "~/.emacs.d/cf/experiments.el")
+
+;;
+;;(load "/usr/share/doc/git/contrib/emacs/git.el")
+;;(load "/usr/share/doc/git/contrib/emacs/git-blame.el")
+(add-to-list 'load-path "/usr/share/doc/git/contrib/emacs")
+(load "~/.emacs.d/cf/git-cf.el")
