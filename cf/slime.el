@@ -24,7 +24,9 @@
         (alisp ("/bin/alisp") :coding-system utf-8-unix)))
 (eval-after-load 'slime
   '(progn
-     (setq common-lisp-hyperspec-root "~/.emacs.d/doc/HyperSpec/")
+     (setq common-lisp-hyperspec-root (concat "/home/"
+                                              (getenv "USER")
+                                              "/.emacs.d/doc/HyperSpec/"))
      (setq slime-scratch-file "~/.emacs.d/tmp/scratch.lisp")
      (setq slime-edit-definition-fallback-function 'find-tag)
      (setq slime-complete-symbol*-fancy t)
